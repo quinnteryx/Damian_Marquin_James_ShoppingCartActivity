@@ -4,8 +4,10 @@ using System.Collections.Generic;
 namespace SHOPPING_CARTLONG;
 class Program
 {
+    
     static void Main()
     {
+
         Dictionary<string, double> inventory = new Dictionary<string, double>()
         {
             {"soda", 20.0},
@@ -30,7 +32,7 @@ class Program
 
         while (true)
         {
-            Console.Write("\nInput order.\nType \"done\" if finished.\nType \"c\" to clear cart.: ");
+            Console.Write("\nInput order.\nType \"done\" if finished.\nType \"s\" to show cart.\nType \"c\" to clear cart.: ");
             string input = Console.ReadLine().ToLower();
 
             if (input == "done")
@@ -44,6 +46,14 @@ class Program
                 cart.Clear();
                 Console.WriteLine("CART CLEARED");
                 continue;
+            }
+            if(input == "s")
+            { 
+                foreach (var item in cart)
+                {
+                    Console.WriteLine($"-- {item.Key.ToUpper()}: P{item.Value} --");
+
+                }
             }
 
             if (!inventory.ContainsKey(input))
