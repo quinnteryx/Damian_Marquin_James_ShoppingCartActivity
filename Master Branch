@@ -1,4 +1,2 @@
-The master branch is fully disregarded from now on.
-I have managed to fix the order using a new branch.
-The old master branch contains an accidental misarrangement which confuses the history of its progress.
-A note is left in that branch about its mistake.
+The master branch is fully disregarded and deleted.
+Primary branch being used is the Fixed--Branch, which features the correct arrangement of its history.
