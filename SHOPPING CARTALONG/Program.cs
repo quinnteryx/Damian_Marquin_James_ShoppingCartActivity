@@ -2,20 +2,42 @@
 using System.Collections.Generic;
 
 namespace SHOPPING_CARTLONG;
-class Program
+
+class Product
 {
-    
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public double Price { get; set; }
+
+    public  int Stock { get; set; }
+    public Product(int id, string name, double price, int stock)
+    {
+        Id = id;
+        Name = name;
+        Price = price;
+        Stock = stock;
+    }
+}
+class Program
+{    
     static void Main()
     {
-
-        Dictionary<string, double> inventory = new Dictionary<string, double>()
+        List<Product> inventory = new List<Product>()
         {
-            {"soda", 20.0},
-            {"chips", 15.0},
-            {"bread", 10.0},
-            {"water", 5.0},
-            {"juice", 25.0}
+            new Product(1, "soda", 20.0, 50),
+            new Product(2, "chips", 15.0, 30),
+            new Product(3, "bread", 10.0, 25),
+            new Product(4, "water", 5.5, 60),
         };
+
+        //Dictionary<string, double> inventory = new Dictionary<string, double>()
+        //{
+        //    {"soda", 20.0},
+        //    {"chips", 15.0},
+        //    {"bread", 10.0},
+        //    {"water", 5.0},
+        //    {"juice", 25.0}
+       // };
 
         Dictionary<string, int> cart = new Dictionary<string, int>();
         double total = 0.0;
@@ -24,11 +46,11 @@ class Program
         Console.WriteLine("Please take your order:");
         Console.WriteLine("-----MENU-----");
 
-        foreach (var item in inventory)
-        {
-            Console.WriteLine($"-- {item.Key.ToUpper()}: P{item.Value} --");
-        }
-        Console.WriteLine("-----------");
+        //foreach (var item in inventory)
+        //{
+        //    Console.WriteLine($"-- {item.Key.ToUpper()}: P{item.Value} --");
+        //}
+        //Console.WriteLine("-----------");
 
         while (true)
         {
@@ -56,11 +78,11 @@ class Program
                 }
             }
 
-            if (!inventory.ContainsKey(input))
-            {
-                Console.WriteLine("INVALID. Item not in MENU");
-                continue;
-            }
+            //if (!inventory.ContainsKey(input))
+            //{
+            //    Console.WriteLine("INVALID. Item not in MENU");
+            //    continue;
+            //}
 
             try
             {
@@ -88,12 +110,12 @@ class Program
 
         Console.WriteLine("-----ORDER SUMMARY-----");
 
-        foreach (var item in cart)
-        {
-            double subtotal = inventory[item.Key] * item.Value;
-            total += subtotal;
-            Console.WriteLine($"Item: {item.Key}({item.Value}) = P{subtotal:F2}");
-        }
+        //foreach (var item in cart)
+        //{
+        //    double subtotal = inventory[item.Key] * item.Value;
+        //    total += subtotal;
+        //    Console.WriteLine($"Item: {item.Key}({item.Value}) = P{subtotal:F2}");
+        //}
 
         Console.WriteLine($"Subtotal: P{total:F2}");
 
