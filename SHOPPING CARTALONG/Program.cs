@@ -35,22 +35,32 @@ class Program
         List<Product> cart = new List<Product>();
         double total = 0.0;
 
-        Console.WriteLine("WELCOME TO FOOD APP");
-        Console.WriteLine("Please take your order:");
-
-        Console.Clear(); //Clears the previous text outputs
-        Console.WriteLine("-----MENU-----");
-
-        foreach (Product product in inventory)
-        {
-            Console.WriteLine($"-- ID: {product.Id} | Product: {product.Name.ToUpper()}: P{product.Price}| Quantity:{product.Stock} -- ");
-        }
-        Console.WriteLine("-----------");
-
         while (true)
         {
+            Console.Clear(); //Clears the previous text outputs
+            Console.WriteLine("WELCOME TO FOOD APP");
+            Console.WriteLine("Please take your order:");
+
+            Console.WriteLine("-----MENU-----");
+
+            foreach (Product product in inventory)
+            {
+                Console.WriteLine($"-- ID: {product.Id} | Product: {product.Name.ToUpper()}: P{product.Price}| Quantity:{product.Stock} -- ");
+            }
+            Console.WriteLine("-----------");
+
             Console.Write("\nInput order.\nType \"done\" if finished.\nType \"s\" to show cart.\nType \"c\" to clear cart.: ");
             string input = Console.ReadLine().ToLower();
+
+            if (input == "s")
+            {
+                foreach (Product item in cart)
+                {
+                    Console.WriteLine("----- YOUR CART ------");
+                    Console.WriteLine($"-- ID: {item.Id} | Product: {item.Name.ToUpper()}: P{item.Price}| Quantity:{item.Stock} -- ");
+
+                }
+            }
 
             if (input == "done")
             {
@@ -64,15 +74,7 @@ class Program
                 Console.WriteLine("CART CLEARED");
                 continue;
             }
-            if(input == "s")
-            {
-                foreach (Product item in cart)
-                {
-                    Console.WriteLine("----- YOUR CART ------");
-                    Console.WriteLine($"-- ID: {item.Id} | Product: {item.Name.ToUpper()}: P{item.Price}| Quantity:{item.Stock} -- ");
-
-                }
-            }
+            
 
             if (!inventory.Exists(p => p.Name.ToLower() == input))
             {
