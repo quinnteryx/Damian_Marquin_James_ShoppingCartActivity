@@ -24,10 +24,10 @@ class Program
     {
         List<Product> inventory = new List<Product>()
         {
-            new Product(1, "soda", 20.0, 50),
-            new Product(2, "chips", 15.0, 30),
-            new Product(3, "bread", 10.0, 25),
-            new Product(4, "water", 5.5, 60),
+            new Product(121, "soda", 20.0, 50),
+            new Product(232, "chips", 15.0, 30),
+            new Product(343, "bread", 10.0, 25),
+            new Product(454, "water", 5.5, 60),
         };
 
         
@@ -37,6 +37,8 @@ class Program
 
         Console.WriteLine("WELCOME TO FOOD APP");
         Console.WriteLine("Please take your order:");
+
+        Console.Clear(); //Clears the previous text outputs
         Console.WriteLine("-----MENU-----");
 
         foreach (Product product in inventory)
@@ -63,7 +65,7 @@ class Program
                 continue;
             }
             if(input == "s")
-            { 
+            {
                 foreach (Product item in cart)
                 {
                     Console.WriteLine("----- YOUR CART ------");
@@ -72,11 +74,11 @@ class Program
                 }
             }
 
-            //if (!inventory.ContainsKey(input))
-            //{
-            //    Console.WriteLine("INVALID. Item not in MENU");
-            //    continue;
-            //}
+            if (!inventory.Exists(p => p.Name.ToLower() == input))
+            {
+                Console.WriteLine("INVALID. Item not in MENU");
+                continue;
+            }
 
             try
             {
