@@ -30,27 +30,20 @@ class Program
             new Product(4, "water", 5.5, 60),
         };
 
-        //Dictionary<string, double> inventory = new Dictionary<string, double>()
-        //{
-        //    {"soda", 20.0},
-        //    {"chips", 15.0},
-        //    {"bread", 10.0},
-        //    {"water", 5.0},
-        //    {"juice", 25.0}
-       // };
+        
 
-        Dictionary<string, int> cart = new Dictionary<string, int>();
+        List<Product> cart = new List<Product>();
         double total = 0.0;
 
         Console.WriteLine("WELCOME TO FOOD APP");
         Console.WriteLine("Please take your order:");
         Console.WriteLine("-----MENU-----");
 
-        //foreach (var item in inventory)
-        //{
-        //    Console.WriteLine($"-- {item.Key.ToUpper()}: P{item.Value} --");
-        //}
-        //Console.WriteLine("-----------");
+        foreach (Product product in inventory)
+        {
+            Console.WriteLine($"-- ID: {product.Id} | Product: {product.Name.ToUpper()}: P{product.Price}| Quantity:{product.Stock} -- ");
+        }
+        Console.WriteLine("-----------");
 
         while (true)
         {
@@ -71,9 +64,10 @@ class Program
             }
             if(input == "s")
             { 
-                foreach (var item in cart)
+                foreach (Product item in cart)
                 {
-                    Console.WriteLine($"-- {item.Key.ToUpper()}: P{item.Value} --");
+                    Console.WriteLine("----- YOUR CART ------");
+                    Console.WriteLine($"-- ID: {item.Id} | Product: {item.Name.ToUpper()}: P{item.Price}| Quantity:{item.Stock} -- ");
 
                 }
             }
@@ -95,10 +89,10 @@ class Program
                     continue;
                 }
 
-                if (cart.ContainsKey(input))
-                    cart[input] += quant;
-                else
-                    cart[input] = quant;
+                //if (cart.ContainsKey(input))
+                //    cart[input] += quant;
+                //else
+                //    cart[input] = quant;
 
                 Console.WriteLine($"Added {quant} {input}(s) in cart.");
             }
@@ -110,12 +104,12 @@ class Program
 
         Console.WriteLine("-----ORDER SUMMARY-----");
 
-        //foreach (var item in cart)
-        //{
-        //    double subtotal = inventory[item.Key] * item.Value;
-        //    total += subtotal;
-        //    Console.WriteLine($"Item: {item.Key}({item.Value}) = P{subtotal:F2}");
-        //}
+        foreach (Product item in cart)
+        {
+            double subtotal = item.Price * item.Stock;
+            total += subtotal;
+            Console.WriteLine($"Item: {item.Name}({item.Price}) = P{subtotal:F2}");
+        }
 
         Console.WriteLine($"Subtotal: P{total:F2}");
 
