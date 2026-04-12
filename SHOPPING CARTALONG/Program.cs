@@ -93,12 +93,31 @@ class Program
                     continue;
                 }
 
-                //if (cart.ContainsKey(input))
-                //    cart[input] += quant;
-                //else
-                //    cart[input] = quant;
+                // identify za product from inventory
+                Product selectedProduct = inventory.Find(p => p.Name.ToLower() == input);
+
+                // check if already in cart
+                Product cartItem = cart.Find(p => p.Name.ToLower() == input);
+
+                if (cartItem != null)
+                {
+                    cartItem.Stock += quant; // update quantity
+                }
+                else
+                {
+                    // will add new product to cart (copy details)
+                    cart.Add(new Product(selectedProduct.Id, selectedProduct.Name, selectedProduct.Price, quant));
+                }
 
                 Console.WriteLine($"Added {quant} {input}(s) in cart.");
+
+                if (quant > selectedProduct.Stock)
+                {
+                    Console.WriteLine("Not enough stock available.");
+                    continue;
+                }
+
+                selectedProduct.Stock -= quant; // reduce inventory
             }
             catch
             {
