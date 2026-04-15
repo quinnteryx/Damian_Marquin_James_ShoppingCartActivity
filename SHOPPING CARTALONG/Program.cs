@@ -35,6 +35,7 @@ class Program
     }
     static double GetItemTotal(List<Product> cart)
     {
+        Console.WriteLine("----- ORDER SUMMARY -----");
         double total = 0.0;
         foreach (Product item in cart)
         {
@@ -42,7 +43,45 @@ class Program
             total += subtotal;
             Console.WriteLine($"Item: {item.Name}({item.Price}) | Grand Total: P{subtotal:F2}");
         }
+
+
+        double discount = 0.0;
+
+        if (total >= 5000)
+            discount = total * 0.1;
+        else if (total >= 3000)
+            discount = total * 0.05;
+
+        double finalTotal = total - discount;
+
+        Console.WriteLine($"Discount: P{discount:F2}");
+        Console.WriteLine($"Final Total: P{finalTotal:F2}");
         Console.WriteLine($"Subtotal: P{total:F2}");
+        while (true)
+        {
+            try
+            {
+                Console.Write("\nENTER PAYMENT AMOUNT: ");
+                double pay = double.Parse(Console.ReadLine());
+
+                if (pay < finalTotal)
+                {
+                    Console.WriteLine("AMOUNT INVALID");
+                }
+                else
+                {
+                    double change = pay - finalTotal;
+                    Console.WriteLine($"Paid P{pay:F2} for the cost of P{finalTotal:F2}. Change: P{change:F2}");
+                    break;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("INVALID. Input Numerical Values");
+            }
+        }
+
+        Console.WriteLine("THANK YOU FOR SHOPPING");
         return total;
     }
     static void Main()
@@ -90,6 +129,8 @@ class Program
             {
                 Console.Clear();
                 Console.WriteLine("ORDER COMPLETED");
+                GetItemTotal(cart);
+
                 Pause();
                 break;
             }
@@ -111,7 +152,7 @@ class Program
                 Pause();
                 continue;
             }
-            
+
 
             if (!inventory.Exists(p => p.Name.ToLower() == input))//identify if the input is in the menu
             {
@@ -129,7 +170,7 @@ class Program
                 if (quant <= 0)
                 {
                     Console.WriteLine("INVALID. Input must be greater than 0.");
-                    Pause();    
+                    Pause();
                     continue;
                 }
 
@@ -172,47 +213,6 @@ class Program
                 Console.WriteLine("INVALID INPUT. Please enter correctly.");
             }
         }
-
-        Console.WriteLine("-----ORDER SUMMARY-----");
-
-        GetItemTotal(cart);
-
-        double discount = 0.0;
-
-        if (total >= 5000)
-            discount = total * 0.1;
-        else if (total >= 3000)
-            discount = total * 0.05;
-
-        double finalTotal = total - discount;
-
-        Console.WriteLine($"Discount: P{discount:F2}");
-        Console.WriteLine($"Final Total: P{finalTotal:F2}");
-
-        while (true)
-        {
-            try
-            {
-                Console.Write("\nENTER PAYMENT AMOUNT: ");
-                double pay = double.Parse(Console.ReadLine());
-
-                if (pay < finalTotal)
-                {
-                    Console.WriteLine("AMOUNT INVALID");
-                }
-                else
-                {
-                    double change = pay - finalTotal;
-                    Console.WriteLine($"Paid P{pay:F2} for the cost of P{finalTotal:F2}. Change: P{change:F2}");
-                    break;
-                }
-            }
-            catch
-            {
-                Console.WriteLine("INVALID. Input Numerical Values");
-            }
-        }
-
-        Console.WriteLine("THANK YOU FOR SHOPPING");
+                
     }
 }
