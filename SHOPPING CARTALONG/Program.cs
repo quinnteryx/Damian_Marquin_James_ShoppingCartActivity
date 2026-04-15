@@ -41,7 +41,7 @@ class Program
         {
             double subtotal = item.Price * item.Stock;
             total += subtotal;
-            Console.WriteLine($"Item: {item.Name}({item.Price}) | Grand Total: P{subtotal:F2}");
+            Console.WriteLine($"Item: {item.Name} - Price:{item.Price} - Quantity:{item.Stock}| Grand Total: P{subtotal:F2}");
         }
 
 
@@ -55,8 +55,8 @@ class Program
         double finalTotal = total - discount;
 
         Console.WriteLine($"Discount: P{discount:F2}");
-        Console.WriteLine($"Final Total: P{finalTotal:F2}");
         Console.WriteLine($"Subtotal: P{total:F2}");
+        Console.WriteLine($"Final Total: P{finalTotal:F2}");
         while (true)
         {
             try
@@ -67,34 +67,58 @@ class Program
                 if (pay < finalTotal)
                 {
                     Console.WriteLine("AMOUNT INVALID");
+                    continue;
                 }
                 else
                 {
                     double change = pay - finalTotal;
                     Console.WriteLine($"Paid P{pay:F2} for the cost of P{finalTotal:F2}. Change: P{change:F2}");
-                    break;
+                    while (true)
+                    {
+
+                        Console.WriteLine("THANK YOU FOR SHOPPING");
+                        Console.Write("Do you wish to shop again? (yes/no): ");
+                        string shopAgain = Console.ReadLine();
+                        if (shopAgain.ToLower() == "yes")
+                        {
+                            Console.WriteLine("REDIRECTING TO MENU...");
+                            Pause();
+                            Main();
+                        }
+                        else if (shopAgain.ToLower() == "no")
+                        {
+                            Console.WriteLine("THANK YOU FOR SHOPPING");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("INVALID INPUT. .");
+                            continue;
+                        }
+                    }
                 }
+
+
+                return total;
             }
             catch
             {
                 Console.WriteLine("INVALID. Input Numerical Values");
             }
+
         }
 
-        Console.WriteLine("THANK YOU FOR SHOPPING");
-        return total;
-    }
-    static void Main()
-    {
-        List<Product> inventory = new List<Product>()
-        {
-            new Product(121, "soda", 35.0, 150),
-            new Product(232, "chips", 25.0, 130),
-            new Product(343, "bread", 15.0, 125),
-            new Product(454, "water", 10.5, 160),
-        };
 
-        
+    }
+    static List<Product> inventory = new List<Product>()
+    {
+        new Product(121, "soda", 35.0, 150),
+        new Product(232, "chips", 25.0, 130),
+        new Product(343, "bread", 15.0, 125),
+        new Product(454, "water", 10.5, 160),
+    }; 
+    static void Main()
+    {        
 
         List<Product> cart = new List<Product>();//creates new list for cart... empty at the start
         double total = 0.0;
@@ -113,11 +137,16 @@ class Program
             }
             Console.WriteLine("-----------");
 
-            Console.Write("\nInput order.\nType \"done\" if finished.\nType \"s\" to show cart.\nType \"c\" to clear cart.: ");
-            string input = Console.ReadLine().ToLower();
+            Console.WriteLine("OPTIONS:");
+            Console.WriteLine("1 - Show Cart");
+            Console.WriteLine("2 - Complete Order");
+            Console.WriteLine("3 - Clear Cart");
+            Console.Write("Enter the ID of the product you want to add to cart or choose an option: ");
+
+            int input = int.Parse(Console.ReadLine());
 
 
-            if (input == "s")
+            if (input == 1)
             {
                 DisplayProduct(cart);
 
@@ -125,17 +154,33 @@ class Program
                 continue;
             }
 
-            if (input == "done")
+            if (input == 2)
             {
-                Console.Clear();
-                Console.WriteLine("ORDER COMPLETED");
-                GetItemTotal(cart);
-
-                Pause();
-                break;
+                Console.Write("Are you sure you want to proceed to checkout? (yes/no): ");
+                string validation = Console.ReadLine();
+                if (validation.ToLower() == "yes")
+                {
+                    Console.WriteLine("ORDER COMPLETED");
+                    Pause();
+                    Console.Clear();
+                    GetItemTotal(cart);
+                    continue;
+                }
+                else if (validation.ToLower() == "no")
+                {
+                    Console.WriteLine("ORDER NOT COMPLETED");
+                    Pause();
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine("INVALID INPUT. Returning to menu.");
+                    Pause();
+                    continue;
+                }
             }
 
-            if (input == "c")
+            if (input == 3)
             {
                 foreach (Product cartItem in cart)
                 {
@@ -154,7 +199,7 @@ class Program
             }
 
 
-            if (!inventory.Exists(p => p.Name.ToLower() == input))//identify if the input is in the menu
+            if (!inventory.Exists(p => p.Id == input))//identify if the input is in the menu
             {
                 Console.WriteLine("INVALID. Item not in MENU");
                 Pause();
@@ -175,7 +220,7 @@ class Program
                 }
 
                 // identify za product from inventory
-                Product selectedProduct = inventory.Find(p => p.Name.ToLower() == input);
+                Product selectedProduct = inventory.Find(p => p.Id == input);
 
                 if (selectedProduct.Stock <= 0)
                 {
@@ -184,8 +229,15 @@ class Program
                     continue;
                 }
 
+                if (quant > selectedProduct.Stock)
+                {
+                    Console.WriteLine("Not enough stock available.");
+                    Pause();
+                    continue;
+                }
+
                 // check if already in cart
-                Product cartItem = cart.Find(p => p.Name.ToLower() == input);
+                Product cartItem = cart.Find(p => p.Id == input);
 
                 if (cartItem != null)
                 {
@@ -197,7 +249,7 @@ class Program
                     cart.Add(new Product(selectedProduct.Id, selectedProduct.Name, selectedProduct.Price, quant));
                 }
 
-                Console.WriteLine($"Added {quant} {input}(s) in cart.");
+                Console.WriteLine($"Added {quant} {selectedProduct.Name}(s) in cart.");
 
                 if (quant > selectedProduct.Stock)
                 {
