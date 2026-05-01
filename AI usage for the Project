@@ -9,3 +9,7 @@ Debugs:
 •	Debugged variables errors during programming language translation.
 •	Minor debugging for ending validation to terminate program – “In the check out when asking to shop again, “no” redirects back to the main menu”
 
+FOR PT2:
+* Debugged the changes for lists-to-array funcionalities(replacing methods with loops) - "Debug these specific parts"
+* How to use present time and date of my device in C#
+* Major debugs once the program is finished for polishing and ensure errors are removed - "*paste code* - Debug this code"
