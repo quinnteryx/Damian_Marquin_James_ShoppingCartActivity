@@ -76,6 +76,17 @@ SHOP AGAIN
 EXIT PROGRAM - Press 6
 
 ---
+RECEIPT INCLUDES
+Receipt number
+Date & time
+Purchased items
+Total amount
+Discount
+Final total
+Payment
+Change
+Low Stock Alerts
+---
 
 INVALID INPUTS AND STOCK QUANTITIES
 
@@ -83,7 +94,8 @@ INVALID INPUTS AND STOCK QUANTITIES
 * You cannot buy more than available stock
 * Cart resets after checkout
 
-PT2 UPDATES:
+PT2 UPDATES and Summary of Changes:
+*Modified lists into arrays, as well as list functions(now appropriate for arrays).
 *Cart Management View: update quantity, remove item, clear cart
 *Payment Validate: payment and compute change
 *Low Stock Alert: Show products with stock <= 5 after checkout
