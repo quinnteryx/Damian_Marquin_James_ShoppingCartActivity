@@ -413,6 +413,7 @@ class Program
                 selected.Stock -= quant; // 
 
                 Console.WriteLine($"Added {quant} {selected.Name}(s) to cart.");
+                DisplayLowStock();  
 
                 Console.Write("Continue shopping? (Y/N): ");
                 string decide = Console.ReadLine().ToUpper();
