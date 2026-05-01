@@ -101,12 +101,33 @@ class Program
                     Console.WriteLine("PAYMENT SUCCESSFUL");
 
                     Console.WriteLine("\n----- RECEIPT -----");
+                    string receiptNo = receiptCounter.ToString("D4");
+                    string record = $"Receipt #{receiptNo} - Final Total: PHP {finalTotal:F2} | Date: {DateTime.Now.ToString()}";
+                    string[] newHistory = new string[orderHistory.Length + 1];
+                    string dateNow = DateTime.Now.ToString("MMMM dd, yyyy h:mm tt");
+
+
+                    Console.WriteLine($"Receipt No: {receiptNo}");
+                    Console.WriteLine($"Date: {dateNow}\n");
+
+                    Console.WriteLine("\n---- PURCHASED ITEMS ----");
                     DisplayProduct(cart);
                     Console.WriteLine($"\nDiscount: P{discount:F2}");
                     Console.WriteLine($"Subtotal: P{total:F2}");
                     Console.WriteLine($"Final Total: P{finalTotal:F2}");
                     Console.WriteLine($"Paid: P{pay:F2}");
                     Console.WriteLine($"Change: P{change:F2}");
+                    
+
+                    for (int i = 0; i < orderHistory.Length; i++)
+                    {
+                        newHistory[i] = orderHistory[i];
+                    }
+                    newHistory[orderHistory.Length] = record;
+
+                    orderHistory = newHistory;
+
+                    receiptCounter++;
 
                     DisplayLowStock();
                 }
@@ -114,7 +135,7 @@ class Program
                 {
                     Console.WriteLine("Payment cancelled. Returning to menu.");
                     Pause();
-                    return total; // Return to menu without exiting
+                    return total;
                 }
                 else
                 {
@@ -143,8 +164,26 @@ class Program
             {
                 Console.WriteLine("INVALID INPUT");
             }
-        }
+        } 
     }
+    public static void DisplayOrderHistory()
+    {
+            Console.WriteLine("\n----- ORDER HISTORY -----");
+
+            if (orderHistory.Length == 0)
+            {
+                Console.WriteLine("No transactions yet.");
+                return;
+            }
+
+            foreach (var record in orderHistory)
+            {
+                Console.WriteLine(record);
+            }
+    }
+   
+    static string[] orderHistory = new string[0];
+    static int receiptCounter = 1;
 
     static void Main()
     {
@@ -152,6 +191,7 @@ class Program
 
         while (true)
         {
+            Console.WriteLine("WELCOME TO FOOD APP");
             Pause();
             Console.WriteLine("WELCOME TO FOOD APP");
 
@@ -168,7 +208,8 @@ class Program
             Console.WriteLine("3 - Clear Cart");
             Console.WriteLine("4 - Remove an item from Cart");
             Console.WriteLine("5 - Search Product/Category");
-            Console.WriteLine("6 - Exit");
+            Console.WriteLine("6 - Shopping History");
+            Console.WriteLine("7 - Exit");
 
             Console.Write("\nEnter choice or product ID or product Name: ");
 
@@ -286,7 +327,7 @@ class Program
                     {
                         if (p.Name.ToLower().Contains(search) || p.Category.ToLower().Contains(search))
                         {
-                            Console.WriteLine($"{p.Id} --- {p.Name} --- P{p.Price} --- {p.Stock} --- {p.Category}");
+                            Console.WriteLine($"{p.Id} --- {p.Name} --- P{p.Price} --- {p.Stock} --- {p.Category}\n");
                             isFound = true;
                         }
                     }
@@ -301,6 +342,13 @@ class Program
                 }
 
                 if (input == "6")
+                {
+                    DisplayOrderHistory();
+                    Pause();
+                    continue;
+                }
+
+                if (input == "7")
                 {
                     Console.WriteLine("THANK YOU FOR SHOPPING:) (closing...)");
                     Pause();
@@ -376,7 +424,7 @@ class Program
                 }
                 else
                 {
-                    Console.Write("Proceed to checkout? (Y/N): ");
+                    Console.Write("Proceed to checkout? (Y/N || C to cancel): ");
                     string checkout = Console.ReadLine().ToUpper();
                     if (checkout == "Y")
                     {
@@ -390,6 +438,13 @@ class Program
                         Pause();
                         Environment.Exit(0);
                     }
+                    else if (checkout == "C")
+                    {
+                        Console.WriteLine("Checkout cancelled. Returning to menu.");
+                        Pause();
+                        continue;
+                    }
+
                     else
                     {
                         Console.WriteLine("INVALID INPUT. Returning to menu.");
