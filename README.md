@@ -76,6 +76,17 @@ SHOP AGAIN
 EXIT PROGRAM - Press 6
 
 ---
+RECEIPT INCLUDES
+Receipt number
+Date & time
+Purchased items
+Total amount
+Discount
+Final total
+Payment
+Change
+Low Stock Alerts
+---
 
 INVALID INPUTS AND STOCK QUANTITIES
 
